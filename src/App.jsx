@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './App.scss';
 import axios from 'axios';
 import { Noun } from './components/Noun';
 import { Book } from './components/Book';
@@ -51,12 +51,13 @@ function App() {
 
     return (
         <div className="App">
-            <div>Testing</div>
+            <h1>Search Info</h1>
             {Object.keys(searchItems).length === 0 ? (
                 <div>Loading...</div>
             ) : (
                 <>
-                    <input
+                        <input
+                            className="searchBox"
                         type="text"
                         autoFocus
                         onChange={(e) => handleSearch(e)}
