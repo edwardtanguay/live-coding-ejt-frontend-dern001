@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
+import { Noun } from './components/Noun';
+import { Book } from './components/Book';
 
 const url = 'http://localhost:3007/all';
 const separator = '|';
@@ -61,9 +63,14 @@ function App() {
                     />
                     {filteredSearchItems.map((item, i) => {
                         return (
-                            <li key={i}>
-                                {item.kind} {item.item.singular} {item.item.title}
-                            </li>
+                            <>
+                                {item.kind === 'noun' && (
+                                    <Noun item={item.item} />
+                                )}
+                                {item.kind === 'book' && (
+                                    <Book item={item.item} />
+                                )}
+                            </>
                         );
                     })}
                 </>
