@@ -3,6 +3,7 @@ import './App.scss';
 import axios from 'axios';
 import { Noun } from './components/Noun';
 import { Book } from './components/Book';
+import { TechPerson } from './components/TechPerson';
 
 const url = 'http://localhost:3007/all';
 const separator = '|';
@@ -32,6 +33,19 @@ function App() {
                 });
             });
 
+            _siteData.techPersons.forEach((item) => {
+                _searchItems.push({
+                    kind: 'techPerson',
+                    bulkSearch:
+                        item.fullName +
+                        separator +
+                        item.quickInfo +
+                        separator +
+                        item.body,
+                    item
+                });
+            });
+
             setSearchItems(_searchItems);
             setFilteredSearchItems([]);
         })();
@@ -56,8 +70,8 @@ function App() {
                 <div>Loading...</div>
             ) : (
                 <>
-                        <input
-                            className="searchBox"
+                    <input
+                        className="searchBox"
                         type="text"
                         autoFocus
                         onChange={(e) => handleSearch(e)}
@@ -70,6 +84,9 @@ function App() {
                                 )}
                                 {item.kind === 'book' && (
                                     <Book item={item.item} />
+                                )}
+                                {item.kind === 'techPerson' && (
+                                    <TechPerson item={item.item} />
                                 )}
                             </>
                         );
