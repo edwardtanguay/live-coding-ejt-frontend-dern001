@@ -6,6 +6,7 @@ const url = 'http://localhost:3007/all';
 
 function App() {
     const [searchItems, setSearchItems] = useState([]);
+    const [filteredSearchItems, setFilteredSearchItems] = useState([]);
 
     // searchItems:
     /*
@@ -37,8 +38,21 @@ function App() {
             });
 
             setSearchItems(_searchItems);
+            setFilteredSearchItems([]);
         })();
     }, []);
+
+    const handleSearch = (e) => {
+        const searchText = e.target.value;
+        if (searchText === '') {
+            setFilteredSearchItems([]);
+        } else {
+            const _filteredSearchItems = searchItems.filter((m) =>
+                m.bulkSearch.toLowerCase().includes(searchText.toLowerCase())
+            );
+            setFilteredSearchItems(_filteredSearchItems);
+        }
+    };
 
     return (
         <div className="App">
@@ -47,9 +61,17 @@ function App() {
                 <div>Loading...</div>
             ) : (
                 <>
-                    <div>There are {searchItems.length} items.</div>
-                    {searchItems.map((item, i) => {
-                        return <li key={i}>{item.kind}</li>;
+                    <input
+                        type="text"
+                        autoFocus
+                        onChange={(e) => handleSearch(e)}
+                    />
+                    {filteredSearchItems.map((item, i) => {
+                        return (
+                            <li key={i}>
+                                {item.kind} {item.item.singular}
+                            </li>
+                        );
                     })}
                 </>
             )}
