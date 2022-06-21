@@ -3,26 +3,11 @@ import './App.css';
 import axios from 'axios';
 
 const url = 'http://localhost:3007/all';
+const separator = '|';
 
 function App() {
     const [searchItems, setSearchItems] = useState([]);
     const [filteredSearchItems, setFilteredSearchItems] = useState([]);
-
-    // searchItems:
-    /*
-	[
-	{
-		kind: "noun",
-		bulkSearch: "Notiz",
-		item: {
-						"article": "die",
-						"singular": "Notiz",
-						"plural": "die Notizen"
-				},
-	},
-	...
-]
-	*/
 
     useEffect(() => {
         (async () => {
@@ -33,6 +18,14 @@ function App() {
                 _searchItems.push({
                     kind: 'noun',
                     bulkSearch: item.singular,
+                    item
+                });
+            });
+
+            _siteData.books.forEach((item) => {
+                _searchItems.push({
+                    kind: 'book',
+                    bulkSearch: item.title + separator + item.description,
                     item
                 });
             });
@@ -69,7 +62,7 @@ function App() {
                     {filteredSearchItems.map((item, i) => {
                         return (
                             <li key={i}>
-                                {item.kind} {item.item.singular}
+                                {item.kind} {item.item.singular} {item.item.title}
                             </li>
                         );
                     })}
